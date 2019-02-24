@@ -4,6 +4,7 @@ import chapter_19.common.entity.LoginRequestPacket;
 import chapter_19.common.entity.LoginResponsePacket;
 import chapter_19.common.entity.Session;
 import chapter_19.utils.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -14,7 +15,11 @@ import java.util.UUID;
  * @create 2019-01-14 17:28
  * @desc 登录请求处理器
  **/
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginRequestPacket loginRequestPacket) throws Exception {
 

@@ -1,6 +1,7 @@
 package chapter_19.server.handle;
 
 import chapter_19.utils.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -9,7 +10,10 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @create 2019-01-16 11:08
  * @desc 登录验证处理器
  **/
+@ChannelHandler.Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
+
+    public static final AuthHandler INSTANCE = new AuthHandler();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

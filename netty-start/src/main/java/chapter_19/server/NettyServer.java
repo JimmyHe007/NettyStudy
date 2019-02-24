@@ -35,17 +35,11 @@ public class NettyServer {
             .childHandler(new ChannelInitializer<NioSocketChannel>() {
                 protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                     //拆包
-                    nioSocketChannel.pipeline().addLast(new Spliter());
-                    nioSocketChannel.pipeline().addLast(new PacketDecoder());
-                    nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new AuthHandler());
-                    nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new GroupMessageRequestHandler());
-                    nioSocketChannel.pipeline().addLast(new PacketEncoder());
+                    nioSocketChannel.pipeline().addLast(new Spliter());//内部实现关联 channel, 无法使用单例
+                    nioSocketChannel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+                    nioSocketChannel.pipeline().addLast(LoginRequestHandler.INSTANCE);
+                    nioSocketChannel.pipeline().addLast(AuthHandler.INSTANCE);
+                    nioSocketChannel.pipeline().addLast(IMHandler.INSTANCE);
                 }
             });
         serverBootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() {

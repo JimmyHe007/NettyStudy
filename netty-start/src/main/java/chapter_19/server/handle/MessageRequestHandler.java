@@ -5,6 +5,7 @@ import chapter_19.common.entity.MessageResponsePacket;
 import chapter_19.common.entity.Session;
 import chapter_19.utils.SessionUtil;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -13,7 +14,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @create 2019-01-14 17:29
  * @desc 消息请求处理器
  **/
+@ChannelHandler.Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
+    public static final MessageRequestHandler INSTANCE = new MessageRequestHandler();
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, MessageRequestPacket messageRequestPacket) throws Exception {
         Session session = SessionUtil.getSession(channelHandlerContext.channel());
