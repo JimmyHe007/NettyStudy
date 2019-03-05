@@ -1,4 +1,4 @@
-package HelloWorld;
+package pers.jimmy.chat.Handler;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -33,6 +33,7 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
         pipeline.addLast(new HttpObjectAggregator(65536));
         pipeline.addLast(new WebSocketServerCompressionHandler());
         pipeline.addLast(new WebSocketServerProtocolHandler(WEBSOCKET_PATH, null, true));
+        pipeline.addLast(new WebSocketHTTPHandler());
         pipeline.addLast(new WebSocketFrameHandler());
     }
 }
