@@ -17,6 +17,10 @@ import java.util.Locale;
 public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, WebSocketFrame webSocketFrame) throws Exception {
         Session session = SessionUtil.getSession(channelHandlerContext.channel());
+        if (session == null) {
+            WebSocketServerHandler.forbiddenHttpRequestResponder();
+            channelHandlerContext.channel().close();
+        }
         if (webSocketFrame instanceof TextWebSocketFrame) {
             String request = ((TextWebSocketFrame) webSocketFrame).text();
             System.out.println("-------" + request);
