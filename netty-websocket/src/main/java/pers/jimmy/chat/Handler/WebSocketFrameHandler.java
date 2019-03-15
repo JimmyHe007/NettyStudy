@@ -1,5 +1,7 @@
 package pers.jimmy.chat.Handler;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -23,7 +25,11 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
         }
         if (webSocketFrame instanceof TextWebSocketFrame) {
             String request = ((TextWebSocketFrame) webSocketFrame).text();
-            System.out.println("-------" + request);
+            JSONObject jsonObject = JSON.parseObject(request);
+            String username = jsonObject.get("recv").toString();
+            String message = jsonObject.get("message").toString();
+            System.out.println("接收人: "+username+", 消息为:" + message);
+            SessionUtil.getChannel(username).writeAndFlush(new TextWebSocketFrame(message));
             channelHandlerContext.channel().writeAndFlush(new TextWebSocketFrame("消息已收到!!!"));
         } else {
             String message = "unsupported frame type: " + webSocketFrame.getClass().getName();

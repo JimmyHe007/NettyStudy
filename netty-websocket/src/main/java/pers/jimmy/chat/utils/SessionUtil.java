@@ -28,19 +28,19 @@ public class SessionUtil {
     }
 
     public static void bindSession(Session session, Channel channel) {
-        userIdChannelMap.put(session.getUserId(), channel);
+        userIdChannelMap.put(session.getUsername(), channel);
         channel.attr(Attributes.SESSION).set(session);
     }
 
     public static void unbindSession(Channel channel) {
         if (hasLogin(channel)) {
-            userIdChannelMap.remove(getSession(channel).getUserId());
+            userIdChannelMap.remove(getSession(channel).getUsername());
             channel.attr(Attributes.SESSION).set(null);
         }
     }
 
-    public static Channel getChannel(String userId) {
-        return userIdChannelMap.get(userId);
+    public static Channel getChannel(String username) {
+        return userIdChannelMap.get(username);
     }
 
     public static Session getSession(Channel channel) {
