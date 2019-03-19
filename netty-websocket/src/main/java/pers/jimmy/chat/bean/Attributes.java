@@ -1,4 +1,4 @@
-package pers.jimmy.chat.entity;
+package pers.jimmy.chat.bean;
 
 import io.netty.util.AttributeKey;
 

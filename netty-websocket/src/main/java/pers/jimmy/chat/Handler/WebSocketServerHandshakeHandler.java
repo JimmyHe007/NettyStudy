@@ -8,7 +8,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.ssl.SslHandler;
 import io.netty.util.internal.StringUtil;
-import pers.jimmy.chat.entity.Session;
+import pers.jimmy.chat.bean.Session;
 import pers.jimmy.chat.utils.SessionUtil;
 
 import java.util.UUID;
@@ -42,7 +42,7 @@ public class WebSocketServerHandshakeHandler extends ChannelInboundHandlerAdapte
             }
             ctx.fireChannelRead(msg);
         } else if (msg instanceof FullHttpRequest){
-            FullHttpRequest req = (FullHttpRequest) msg;
+            final FullHttpRequest req = (FullHttpRequest) msg;
             try {
                 String username = req.getUri().substring(req.getUri().indexOf("=")+1);
                 if (req.method() == HttpMethod.GET && !(req.getUri().indexOf("=") < 0) && !StringUtil.isNullOrEmpty(username)) {

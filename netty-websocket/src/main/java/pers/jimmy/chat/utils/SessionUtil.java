@@ -2,8 +2,8 @@ package pers.jimmy.chat.utils;
 
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
-import pers.jimmy.chat.entity.Attributes;
-import pers.jimmy.chat.entity.Session;
+import pers.jimmy.chat.bean.Attributes;
+import pers.jimmy.chat.bean.Session;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

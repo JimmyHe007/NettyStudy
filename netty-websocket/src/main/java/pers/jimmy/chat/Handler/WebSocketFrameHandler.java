@@ -6,10 +6,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
-import pers.jimmy.chat.entity.Session;
+import pers.jimmy.chat.bean.Session;
 import pers.jimmy.chat.utils.SessionUtil;
-
-import java.util.Locale;
 
 /**
  * @author jimmy
