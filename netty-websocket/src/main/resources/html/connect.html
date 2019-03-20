@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+
+    <script type="text/javascript">
+    var ws;
+        function WebSocketTest() {
+            if ("WebSocket" in window) {
+                alert("您的浏览器支持 WebSocket!");
+                var username = prompt("请输入用户名!");
+                // 打开一个 web socket
+                ws = new WebSocket("ws://localhost:8080/websocket?username="+username);
+
+                ws.onopen = function () {
+                    // Web Socket 已连接上，使用 send() 方法发送数据
+                    ws.send("发送消息!!!");
+                    alert("数据发送中...");
+                };
+
+                ws.onmessage = function (evt) {
+                    console.log(evt);
+                    var received_msg = evt.data;
+                    alert("数据已接收...消息为: " + received_msg);
+                };
+
+                ws.onclose = function () {
+                    // 关闭 websocket
+                    alert("连接已关闭...");
+                };
+            }
+
+            else {
+                // 浏览器不支持 WebSocket
+                alert("您的浏览器不支持 WebSocket!");
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div id="sse">
+        <a href="javascript:WebSocketTest()">运行 WebSocket</a>
+    </div>
+    <div>
+        <input type="text" id="username" />
+        <textarea id="message">
+
+        </textarea>
+        <button onclick="sendMessage()">发送</button>
+    </div>
+
+</body>
+<script>
+    function sendMessage() {
+        var username = document.getElementById("username").value;
+        var message = document.getElementById("message").value;
+        var data = {
+            recv: username,
+            message: message
+        };
+        ws.send(JSON.stringify(data));
+    }       
+</script>
+</html>
