@@ -8,6 +8,7 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.ssl.SslContext;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * @author jimmy
@@ -31,8 +32,10 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
         }
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new HttpObjectAggregator(65536));
+        pipeline.addLast(new ChunkedWriteHandler());
         pipeline.addLast(new WebSocketServerCompressionHandler());
         pipeline.addLast(new WebSocketServerHandler(WEBSOCKET_PATH, null, true));
+        pipeline.addLast(new HttpStaticFileServerHandler());
         pipeline.addLast(new WebSocketFrameHandler());
     }
 }

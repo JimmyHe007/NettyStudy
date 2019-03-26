@@ -25,11 +25,9 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.internal.SystemPropertyUtil;
 
 import javax.activation.MimetypesFileTypeMap;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -109,7 +107,6 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
             sendError(ctx, FORBIDDEN);
             return;
         }
-
         File file = new File(path);
         if (file.isHidden() || !file.exists()) {
             sendError(ctx, NOT_FOUND);
@@ -241,7 +238,7 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
         }
 
         // Convert to absolute path.
-        return SystemPropertyUtil.get("user.dir") + "/netty-websocket/src/main/resources" + uri;
+        return SystemPropertyUtil.get("user.dir") + "/netty-websocket/src/main/resources" + uri.split("\\?")[0];
     }
 
     private static final Pattern ALLOWED_FILE_NAME = Pattern.compile("[^-\\._]?[^<>&\\\"]*");
@@ -384,8 +381,7 @@ public class HttpStaticFileServerHandler extends SimpleChannelInboundHandler<Ful
      * @param file
      *            file to extract content type
      */
-    private static void setContentTypeHeader(HttpResponse response, File file) {
-        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-        response.headers().set(HttpHeaderNames.CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
+    private static void setContentTypeHeader(HttpResponse response, File file) throws IOException {
+        response.headers().set(HttpHeaderNames.CONTENT_TYPE, Files.probeContentType(file.toPath()));
     }
 }

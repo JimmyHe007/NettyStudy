@@ -7,7 +7,6 @@ import io.netty.handler.stream.ChunkedNioFile;
 import pers.jimmy.chat.Handler.WebSocketServerHandshakeHandler;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -56,6 +55,8 @@ public class WebPageHandler {
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/x-javascript");
         } else if (path.endsWith(".css")) {
             response.headers().set(HttpHeaderNames.CONTENT_TYPE, "text/css; charset=UTF-8");
+        } else if (path.endsWith(".gif")) {
+            response.headers().set(HttpHeaderNames.CONTENT_TYPE, "image/gif");
         }
         boolean keepAlive = HttpUtil.isKeepAlive(request);
         if (keepAlive) {
